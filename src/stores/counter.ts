@@ -10,3 +10,17 @@ export const useCounterStore = defineStore('counter', () => {
 
   return { count, doubleCount, increment };
 });
+
+export const useTokenStore = defineStore('token', () => {
+  const token = ref('');
+
+  function getToken(): string {
+    return token.value;
+  }
+
+  function setToken(value: string) {
+    token.value = value;
+  }
+
+  return { getToken, setToken };
+});
