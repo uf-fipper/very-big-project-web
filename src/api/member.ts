@@ -1,14 +1,19 @@
 import { aspClient } from './clients';
 
-export async function login(
-  username: string,
-  password: string,
-): Promise<IResult<IMember & { token: string }>> {
-  return await aspClient.post('member/login');
+export async function login(username: string, password: string) {
+  return await aspClient.post<IResult<IMember & { token: string }>>(
+    'member/login',
+    JSON.stringify({ username, password }),
+    {
+      headers: { 'Content-Type': 'application/json' },
+    },
+  );
 }
 
-export async function getMember(token: string): Promise<IResult<IMember>> {
-  return await aspClient.post('member/getMember', undefined, { headers: { token } });
+export async function getMember(token: string) {
+  return await aspClient.post<IResult<IMember>>('member/getMember', undefined, {
+    headers: { token },
+  });
 }
 
 export default { login, getMember };

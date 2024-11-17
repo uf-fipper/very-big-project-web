@@ -19,8 +19,11 @@
 import { ref } from 'vue';
 import LoginCompoment from '@/components/LoginCompoment.vue';
 import RegisterCompoment from '@/components/RegisterCompoment.vue';
+import { useRoute } from 'vue-router';
 
-const tab = ref<'login' | 'register'>('login');
+const route = useRoute();
+
+const tab = ref<'login' | 'register'>(route.query.tab === 'register' ? 'register' : 'login');
 </script>
 
 <style scoped>

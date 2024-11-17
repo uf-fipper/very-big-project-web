@@ -1,19 +1,19 @@
 <template>
   <div>
     <div>注册</div>
-    <div>
-      <div>用户名</div>
-      <input type="text" v-model="params.username" required />
+    <div class="row">
+      <el-text>用户名</el-text>
+      <el-input type="text" v-model:model-value="username" required></el-input>
     </div>
-    <div>
-      <div>密码</div>
-      <input type="password" v-model="params.password" required />
+    <div class="row">
+      <el-text>密码</el-text>
+      <el-input type="password" v-model:model-value="password" required></el-input>
     </div>
-    <div>
-      <div>确认密码</div>
-      <input type="password" v-model="passwordConfirm" required />
+    <div class="row">
+      <el-text>确认密码</el-text>
+      <el-input type="password" v-model:model-value="passwordConfirm" required></el-input>
     </div>
-    <button @click="() => login()">注册</button>
+    <el-button @click="() => login()">注册</el-button>
     <br />
     <span v-if="tips">{{ tips }}</span>
   </div>
@@ -23,16 +23,21 @@
 import { useTokenStore } from '@/stores/counter';
 import axios from 'axios';
 import { ref } from 'vue';
+import { ElInput, ElButton, ElText } from 'element-plus';
 
 const tips = ref('');
 
-const params = {
-  username: '',
-  password: '',
-};
-const passwordConfirm = '';
+const username = ref('');
+const password = ref('');
+const passwordConfirm = ref('');
 
 function login() {
-  tips.value = `注册成功: ${params.username}`;
+  tips.value = `注册成功: ${username}`;
 }
 </script>
+
+<style scoped>
+.row {
+  display: flex;
+}
+</style>
