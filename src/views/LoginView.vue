@@ -5,10 +5,10 @@
         <button @click="tab = 'login'">登录</button>
         <button @click="tab = 'register'">注册</button>
       </div>
-      <div v-if="tab === 'login'">
+      <div v-if="tab === 'login'" class="form">
         <LoginCompoment></LoginCompoment>
       </div>
-      <div v-if="tab === 'register'">
+      <div v-if="tab === 'register'" class="form">
         <RegisterCompoment></RegisterCompoment>
       </div>
     </div>
@@ -25,14 +25,28 @@ const tab = ref<'login' | 'register'>('login');
 
 <style scoped>
 .login-root {
-  display: block;
+  width: 100%;
 }
 
 .login-yuansu {
+  display: flex;
   border: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 
 .row {
   display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
