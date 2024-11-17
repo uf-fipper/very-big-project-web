@@ -2,16 +2,16 @@
   <div>
     <div>登录</div>
     <div>
-      <div>用户名</div>
-      <input type="text" v-model="params.username" required />
+      <el-text>用户名</el-text>
+      <el-input type="text" v-model:model-value="username" placeholder="请输入用户名"></el-input>
     </div>
     <div>
-      <div>密码</div>
-      <input type="password" v-model="params.password" required />
+      <el-text>密码</el-text>
+      <el-input type="password" v-model:model-value="password" placeholder="请输入密码"></el-input>
     </div>
-    <button @click="() => login()">登录</button>
+    <el-button @click="() => login()">登录</el-button>
     <br />
-    <span v-if="tips">{{ tips }}</span>
+    <el-text v-if="tips">{{ tips }}</el-text>
   </div>
 </template>
 
@@ -19,15 +19,20 @@
 import { useTokenStore } from '@/stores/counter';
 import axios from 'axios';
 import { ref } from 'vue';
+import { ElText, ElInput, ElButton } from 'element-plus';
+import memberApi from '@/api/member';
 
 const tips = ref('');
 
-const params = {
-  username: '',
-  password: '',
-};
+const username = ref('');
+const password = ref('');
 
 function login() {
-  tips.value = `登录成功: ${params.username}`;
+  memberApi.login(username.value, password.value).then((res) => {
+    if (res.ret == 1) {
+      useTokenStore().setToken(res.data.token);
+    }
+    tips.value = res.message;
+  });
 }
 </script>
