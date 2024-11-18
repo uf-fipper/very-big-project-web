@@ -10,10 +10,20 @@ export async function login(username: string, password: string) {
   );
 }
 
+export async function register(username: string, password: string) {
+  return await aspClient.post<IResult<IMember>>(
+    'member/register',
+    JSON.stringify({ username, password }),
+    {
+      headers: { 'Content-Type': 'application/json' },
+    },
+  );
+}
+
 export async function getMember(token: string) {
   return await aspClient.post<IResult<IMember>>('member/getMember', undefined, {
     headers: { token },
   });
 }
 
-export default { login, getMember };
+export default { login, register, getMember };

@@ -13,7 +13,7 @@
       <el-text>确认密码</el-text>
       <el-input type="password" v-model:model-value="passwordConfirm" required></el-input>
     </div>
-    <el-button @click="() => login()">注册</el-button>
+    <el-button @click="() => register()">注册</el-button>
     <br />
     <span v-if="tips">{{ tips }}</span>
   </div>
@@ -23,7 +23,12 @@
 import { useTokenStore } from '@/stores/counter';
 import axios from 'axios';
 import { ref } from 'vue';
+import memberApi from '@/api/member';
 import { ElInput, ElButton, ElText } from 'element-plus';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
 
 const tips = ref('');
 
@@ -31,8 +36,31 @@ const username = ref('');
 const password = ref('');
 const passwordConfirm = ref('');
 
-function login() {
-  tips.value = `注册成功: ${username}`;
+function register() {
+  if (username.value.length < 6 || username.value.length > 20) {
+    tips.value = '用户名必须在6-20之间';
+    return;
+  }
+  if (password.value.length < 6) {
+    tips.value = '密码长度必须大于6';
+    return;
+  }
+  if (password.value !== passwordConfirm.value) {
+    tips.value = '两次密码不相等';
+    return;
+  }
+
+  memberApi.register(username.value, password.value).then((response) => {
+    const data = response.data;
+    if (data.ret === 1) {
+      const routerArgs: Record<string, any> = { tag: 'login' };
+      if (route.query.nextUrl !== undefined) {
+        routerArgs.nextUrl = route.query.nextUrl;
+      }
+      router.replace({ query: routerArgs });
+    }
+    tips.value = data.message;
+  });
 }
 </script>
 
