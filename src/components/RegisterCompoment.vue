@@ -1,19 +1,20 @@
 <template>
   <div>
-    <div>注册</div>
-    <div class="row">
-      <el-text>用户名</el-text>
-      <el-input type="text" v-model:model-value="username" required></el-input>
-    </div>
-    <div class="row">
-      <el-text>密码</el-text>
-      <el-input type="password" v-model:model-value="password" required></el-input>
-    </div>
-    <div class="row">
-      <el-text>确认密码</el-text>
-      <el-input type="password" v-model:model-value="passwordConfirm" required></el-input>
-    </div>
-    <el-button @click="() => register()">注册</el-button>
+    <el-form>
+      <div class="row">
+        <el-text>用户名</el-text>
+        <el-input type="text" v-model:model-value="username" required></el-input>
+      </div>
+      <div class="row">
+        <el-text>密码</el-text>
+        <el-input type="password" v-model:model-value="password" required></el-input>
+      </div>
+      <div class="row">
+        <el-text>确认密码</el-text>
+        <el-input type="password" v-model:model-value="passwordConfirm" required></el-input>
+      </div>
+      <el-button @click="() => register()">注册</el-button>
+    </el-form>
     <br />
     <span v-if="tips">{{ tips }}</span>
   </div>
@@ -23,8 +24,8 @@
 import { useTokenStore } from '@/stores/counter';
 import axios from 'axios';
 import { ref } from 'vue';
-import memberApi from '@/api/member';
-import { ElInput, ElButton, ElText } from 'element-plus';
+import memberApi from '@/api/members/member';
+import { ElInput, ElButton, ElText, ElForm } from 'element-plus';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
@@ -57,9 +58,14 @@ function register() {
       if (route.query.nextUrl !== undefined) {
         routerArgs.nextUrl = route.query.nextUrl;
       }
-      router.replace({ query: routerArgs });
+      tips.value = '注册成功，即将跳转登录';
+      setTimeout(() => {
+        router.replace({ query: routerArgs, force: true });
+        location.reload();
+      }, 3000);
+    } else {
+      tips.value = data.data;
     }
-    tips.value = data.message;
   });
 }
 </script>

@@ -12,7 +12,7 @@ export const useCounterStore = defineStore('counter', () => {
 });
 
 export const useTokenStore = defineStore('token', () => {
-  const token = ref('');
+  const token = ref('1');
 
   function getToken(): string {
     return token.value;

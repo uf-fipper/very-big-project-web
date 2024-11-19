@@ -1,23 +1,27 @@
 interface IResultBase {
   ret: number;
-  message: string;
+  timestamp: number;
 }
 
-interface IResultSuccess<T = undefined> extends IResultBase {
+interface IResultSuccess<T> extends IResultBase {
   ret: 1;
   data: T;
 }
 
-interface IResultError<T = undefined> extends IResultBase {
+interface IResultError<T> extends IResultBase {
   ret: 0;
   data: T;
 }
 
-type IResult<T = undefined, R = undefined> = IResultSuccess<T> | IResultError<R>;
-
-interface IMember {
-  memcode?: string;
-  username: string;
-  nickname: string;
-  token?: string;
+interface IBadRequest {
+  errors: Record<string, string[]>[];
+  status: 400;
+  title: string;
+  traceId: string;
+  type: string;
 }
+
+type IResult<T, R = undefined> = R extends undefined
+  ? IResultSuccess<T>
+  : IResultSuccess<T> | IResultError<R>;
+type IResultWithBadRequest<T, R = undefined> = IBadRequest | IResult<T, R>;

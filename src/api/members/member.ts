@@ -1,8 +1,8 @@
-import { aspClient } from './clients';
+import { aspClient } from '../clients';
 
 export async function login(username: string, password: string) {
-  return await aspClient.post<IResult<IMember & { token: string }>>(
-    'member/login',
+  return await aspClient.post<IResult<ILoginMember, string>>(
+    'Member/Login',
     JSON.stringify({ username, password }),
     {
       headers: { 'Content-Type': 'application/json' },
@@ -11,8 +11,8 @@ export async function login(username: string, password: string) {
 }
 
 export async function register(username: string, password: string) {
-  return await aspClient.post<IResult<IMember>>(
-    'member/register',
+  return await aspClient.post<IResult<IMember, string>>(
+    'Member/Register',
     JSON.stringify({ username, password }),
     {
       headers: { 'Content-Type': 'application/json' },
@@ -21,7 +21,13 @@ export async function register(username: string, password: string) {
 }
 
 export async function getMember(token: string) {
-  return await aspClient.post<IResult<IMember>>('member/getMember', undefined, {
+  return await aspClient.get<IResult<IMember>>('Member/GetMember', {
+    headers: { token },
+  });
+}
+
+export async function logout(token: string) {
+  return await aspClient.post<IResult<boolean>>('Member/Logout', undefined, {
     headers: { token },
   });
 }

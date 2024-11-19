@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div>登录</div>
     <div class="row">
       <el-text>用户名</el-text>
       <el-input type="text" v-model:model-value="username" placeholder="请输入用户名"></el-input>
@@ -20,10 +19,11 @@ import { useTokenStore } from '@/stores/counter';
 import axios from 'axios';
 import { ref } from 'vue';
 import { ElText, ElInput, ElButton } from 'element-plus';
-import memberApi from '@/api/member';
-import { useRoute } from 'vue-router';
+import memberApi from '@/api/members/member';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
 
 let nextUrl = route.query.nextUrl ?? '';
 if (nextUrl instanceof Array) {
@@ -41,8 +41,15 @@ function login() {
     console.log(res);
     if (res.ret == 1) {
       useTokenStore().setToken(res.data.token);
+      tips.value = '登录成功';
+      if (typeof route.query.nextUrl === 'string') {
+        router.push(route.query.nextUrl);
+      } else {
+        router.push('/main');
+      }
+    } else {
+      tips.value = res.data;
     }
-    tips.value = res.message;
   });
 }
 </script>
