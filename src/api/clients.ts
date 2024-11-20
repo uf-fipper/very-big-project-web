@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRoute, useRouter } from 'vue-router';
+import Vrouter from '@/router';
 
 export const aspClient = axios.create({
   baseURL: import.meta.env.VITE_ASP_BASE_URL,
@@ -7,12 +7,11 @@ export const aspClient = axios.create({
 });
 
 aspClient.interceptors.response.use(undefined, (response) => {
+  const route = Vrouter.currentRoute.value;
+  const router = Vrouter;
+
   if (response.status == 401) {
-    // TODO: 这俩是undefined？
-    const route = useRoute();
-    const router = useRouter();
     router.replace({ path: '/login', query: { nextUrl: route.fullPath } });
-    location.reload();
   }
   return response;
 });

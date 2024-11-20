@@ -32,4 +32,4 @@ export async function logout(token: string) {
   });
 }
 
-export default { login, register, getMember };
+export default { login, logout, register, getMember };

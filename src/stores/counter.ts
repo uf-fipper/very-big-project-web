@@ -12,14 +12,12 @@ export const useCounterStore = defineStore('counter', () => {
 });
 
 export const useTokenStore = defineStore('token', () => {
-  const token = ref('1');
-
   function getToken(): string {
-    return token.value;
+    return localStorage.getItem('token') ?? '1';
   }
 
   function setToken(value: string) {
-    token.value = value;
+    localStorage.setItem('token', value);
   }
 
   return { getToken, setToken };
