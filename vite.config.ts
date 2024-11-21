@@ -8,7 +8,7 @@ import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import ElementPlus from 'unplugin-element-plus/vite';
 
-const name = 'very-big-projct-web';
+const name = 'very-big-project-web';
 
 // https://vite.dev/config/
 export default defineConfig({
