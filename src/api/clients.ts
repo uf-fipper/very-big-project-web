@@ -11,7 +11,7 @@ aspClient.interceptors.response.use(undefined, (response) => {
   const router = Vrouter;
 
   if (response.status == 401) {
-    router.replace({ path: '/login', query: { nextUrl: route.fullPath } });
+    router.replace({ name: 'Login', query: { nextUrl: route.fullPath } });
   }
   return response;
 });

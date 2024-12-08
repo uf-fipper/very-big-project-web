@@ -3,6 +3,7 @@ import MainView from '@/views/MainView.vue';
 import LoginView from '@/views/LoginView.vue';
 import { useTokenStore } from '@/stores/counter';
 import memberApi from '@/api/members/member';
+import NotFound from '@/views/NotFound.vue';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -13,13 +14,18 @@ const router = createRouter({
     },
     {
       path: '/login',
-      name: 'login',
+      name: 'Login',
       component: LoginView,
     },
     {
       path: '/main',
-      name: 'main',
+      name: 'Main',
       component: MainView,
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound,
     },
   ],
 });
